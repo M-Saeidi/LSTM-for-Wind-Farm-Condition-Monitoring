@@ -44,10 +44,12 @@ Temp1 = pd.DataFrame(Temp)
 Temp1.head()
 ```
 
-|  Samples | Active Power  | Cooling System Temperature  | Generator Temperature  |
-| ------------- | ------------- |
-| 0  | 156.740829  |
-| 1  | 309.560822  |
-| 2  | 504.298340  |
-| 3  | 227.077560  |
-| 4  | -5.392981   |
+|  Samples | Active Power  | 
+| -------- | ----------- |
+| 0        | 156.740829  |
+| 1        | 309.560822  |
+| 2        | 504.298340  |
+| 3        | 227.077560  |
+| 4        | -5.392981   |
+
+
