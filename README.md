@@ -52,4 +52,6 @@ Temp1.head()
 | 3 | 227.077560    |  39.0                      | 49.062386              |
 | 4 | -5.392981     |  39.0                      | 46.403320              |
 
-
+Active Power: Produced active power [kW]
+Cooling System Temperature: Temperature of generator cooling system [$^{\circ}$]
+Generator Temperature: Temperature of generator windings [$^{\circ}$]
