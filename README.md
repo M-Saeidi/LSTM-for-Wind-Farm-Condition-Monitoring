@@ -43,6 +43,7 @@ Temp = {'Active Power':P1,
 Temp1 = pd.DataFrame(Temp)
 Temp1.head()
 ```
+
 |  Samples | Active Power  | Cooling System Temperature  | Generator Temperature  |
 | ------------- | ------------- |
 | 0  | 156.740829  |
