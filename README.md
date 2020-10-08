@@ -21,3 +21,25 @@ from datetime import datetime
 from datetime import date
 %tensorflow_version 1.x
 ```
+
+Lets import the datasets and take a look at a small slice of our data to see what features and data types we have.
+```python
+# Importing the dataset
+dataset_P = scipy.io.loadmat('.../My Drive/LSTM_GPU/P.mat')
+AP = np.array(dataset_P.get('P'))
+P1 = np.array(AP[:,66])
+dataset_Tgenc = scipy.io.loadmat('.../My Drive/LSTM_GPU/Tgencool.mat')
+Tgc = np.array(dataset_Tgenc.get('Tgencool'))
+Tgc1 = np.array(Tgc[:,66])
+dataset_Tgen = scipy.io.loadmat('.../My Drive/LSTM_GPU/Tgen1.mat')
+Tgen = np.array(dataset_Tgen.get('Tgen1'))
+Tgen1 = np.array(Tgen[:,66])
+```
+
+```python
+Temp = {'Active Power':P1,
+       'Cooling System Temperature':Tgc1,
+       'Generator Temperature':Tgen1}
+Temp1 = pd.DataFrame(Temp)
+Temp1.head()
+```
