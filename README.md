@@ -93,3 +93,55 @@ Test_data = P1.shape[0]
 Time_step = 12
 Number_Features = 2
 ```
+Since the data collection frequency is 10-min, the time-step is chosen be to 12. In the other word, 12*10 = 120 mins (2Hrs) is sufficient for considering the temperature variation of generator windings. Hence, the datasets are converted to suitable format for LSTM model which includes the previous samples (based on the defined time-steps).
+```python
+# Pre-processing the Inputs based on dropna
+output = np.vstack(np.transpose([Tgen1]))
+output = pd.DataFrame(output)
+output_no_NAN = output.dropna()
+output_processed = output_no_NAN
+
+from pandas import DataFrame
+from pandas import concat
+def series_to_supervised(data, n_in=Time_step, n_out=1, dropnan=True):
+
+    n_vars = 1 if type(data) is list else data.shape[1]
+    df = DataFrame(data)
+    cols = list()
+	# input sequence (t-n, ... t-1)
+    for i in range(n_in, 0, -1):
+        cols.append(df.shift(i))
+            # put it all together
+    agg = concat(cols, axis=1)
+	# drop rows with NaN values
+    if dropnan:
+        agg.dropna(inplace=True)
+    return agg
+
+# Creating data structures
+raw = DataFrame()
+raw['ob1'] = P1[0:Training_data]
+raw['ob2'] = Tgc1[0:Training_data]
+values = raw.values
+data_train = series_to_supervised(values)
+
+raw = DataFrame()
+raw['ob1'] = P1[Training_data:Test_data]
+raw['ob2'] = Tgc1[Training_data:Test_data]
+values = raw.values
+data_test = series_to_supervised(values)
+
+y_temp= []
+for i in range(0, Training_data-Time_step+0):
+    y_temp.append(output_processed.iloc[i, 0])
+y_train = y_temp
+y_train = np.array(y_train)
+y_train = y_train.reshape(-1,1)
+                          
+y_temp= []
+for i in range(Training_data+0, Test_data-Time_step+0):
+    y_temp.append(output_processed.iloc[i, 0])
+y_test = y_temp
+y_test = np.array(y_test)
+y_test = y_test.reshape(-1,1)
+```
