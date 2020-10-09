@@ -68,3 +68,28 @@ Tgen1[Outliers] = None
 P1[Outliers] = None
 Tgc1[Outliers] = None
 ```
+Moreover, the SCADA systems which are responsible for gathering data have failed to measure the features in some period of times. The failure of measuring systems produce many NaN values in our dataset which should be handled.
+```python
+Nan_Values1 = np.isnan(P1)
+Nan_Values2 = np.isnan(Tgc1)
+Nan_Values3 = np.isnan(Tgen1)
+Nan_Values = Nan_Values1 | Nan_Values2 | Nan_Values3
+Tgen1[Nan_Values] = None
+P1[Nan_Values] = None
+Tgc1[Nan_Values] = None
+
+Tgen1 = Tgen1[~np.isnan(Tgen1)]
+P1 = P1[~np.isnan(P1)]
+Tgc1 = Tgc1[~np.isnan(Tgc1)]
+```
+
+# Data Preparation for LSTM Model
+Before preparing datasets for LSTM moel, the training set ratio, LSTM time_step, and number of features are defined.
+```python
+# Inputs:
+Training_ratio = 0.75
+Training_data = np.int(P1.shape[0]*Training_ratio)
+Test_data = P1.shape[0]
+Time_step = 12
+Number_Features = 2
+```
