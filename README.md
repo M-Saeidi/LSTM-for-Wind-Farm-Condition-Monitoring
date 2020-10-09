@@ -52,6 +52,19 @@ Temp1.head()
 | 3 | 227.077560    |  39.0                      | 49.062386              |
 | 4 | -5.392981     |  39.0                      | 46.403320              |
 
-Active Power: Produced active power [kW]
-Cooling System Temperature: Temperature of generator cooling system [°C]
-Generator Temperature: Temperature of generator windings [°C]
+Active Power: Produced active power [kW] \n
+Cooling System Temperature: Temperature of generator cooling system [°C] \n
+Generator Temperature: Temperature of generator windings [°C] \n
+
+# Data Preprocessing & Cleaning
+The datasets have many outliers which can be removed by imposing upper and lower limits based on the engineering knowledge for each feature.
+```python
+# Filtering out the outliers
+outliers1 = ((P1>2000) | (P1<(-20)))
+outliers2 = ((Tgc1>180) | (Tgc1<(-20)))
+outliers3 = ((Tgen1>180) | (Tgen1<(-20)))
+Outliers = outliers1 | outliers2 | outliers3
+Tgen1[Outliers] = None
+P1[Outliers] = None
+Tgc1[Outliers] = None
+```
