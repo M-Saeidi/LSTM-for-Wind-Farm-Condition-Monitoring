@@ -8,7 +8,6 @@ In this project, several preprocessing techniques for missing value and outliers
 
 # Initialization
 The data is available in the LSTM-for-Wind-Farm-Condition-Monitoring folder. These data are provided by Power Factors which is one of the prominent companies in providing condition monitoring and asset management for renewable energy sector. I will start with importing the libraries.
-
 ```python
 # Initialization
 # Importing the libraries
@@ -160,4 +159,41 @@ y_test = sc_y_test.fit_transform(y_test)
 X_train = np.reshape(data_1, (data_1.shape[0], Time_step, Number_Features))
 X_test = np.reshape(data_2, (data_2.shape[0], Time_step, Number_Features))
 ```
+Now, the datasets are ready to be fed to our Deep Learning model. Long short-term memory (LSTM) models are part of Recurrent Neural Networks (RNNs) which show excellent performance for time-series and sequential problems. Since this problem is also a sequential anomaly detection project based on the 10-min average SCADA datasets, several LSTM models will be developed to predict the windings temperature of generator.
+```python
+# Importing the Keras libraries and packages
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from keras.layers import Dropout
+
+# Initialising the RNN
+regressor = Sequential()
+
+# Adding the first LSTM layer and some Dropout regularisation
+regressor.add(LSTM(units = 30, return_sequences = True, input_shape = (X_train.shape[1], 2)))
+regressor.add(Dropout(0.1))
+
+# Adding a second LSTM layer and some Dropout regularisation
+regressor.add(LSTM(units = 30, return_sequences = True))
+regressor.add(Dropout(0.1))
+
+# Adding a third LSTM layer and some Dropout regularisation
+#regressor.add(LSTM(units = 30, return_sequences = True))
+#regressor.add(Dropout(0.4))
+
+# Adding a fourth LSTM layer and some Dropout regularisation
+regressor.add(LSTM(units = 30, return_sequences = False))
+regressor.add(Dropout(0.1))
+
+# Adding the output layer
+regressor.add(Dense(units = 1))
+
+# Compiling the RNN
+regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
+
+# Fitting the RNN to the Training set
+regressor.fit(X_train, y_train, epochs = 10, batch_size = 32*8)
+```
+
 
