@@ -145,3 +145,19 @@ y_test = y_temp
 y_test = np.array(y_test)
 y_test = y_test.reshape(-1,1)
 ```
+Since the datasets are preprocessed and converted to the proper structure for LSTM model, they can be scaled using StandardScaler library to obtain accurate results.
+```python
+# Feature Scaling
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+data_1 = sc_X.fit_transform(data_train)
+data_2 = sc_X.fit_transform(data_test)
+sc_y_train = StandardScaler()
+y_train = sc_y_train.fit_transform(y_train)
+sc_y_test = StandardScaler()
+y_test = sc_y_test.fit_transform(y_test)
+
+X_train = np.reshape(data_1, (data_1.shape[0], Time_step, Number_Features))
+X_test = np.reshape(data_2, (data_2.shape[0], Time_step, Number_Features))
+```
+
